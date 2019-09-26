@@ -10,7 +10,7 @@ const swap_and_update = (input_array, value) => {
     input_array[1] = value;
 }
 
-function* fib1() {
+const fib1 = function* () {
     let seq_3 = [0,1];
     let i = 0;
     while (true) {
@@ -26,7 +26,7 @@ function* fib1() {
     }
 }
 
-function* fib2() {
+const fib2 = function* () {
     let fib = fib1();
     while (true) {
         let result = fib.next().value;

@@ -1,4 +1,4 @@
-function* print_words(sentence) {
+const print_words = function* (sentence) {
     let string_as_array = sentence.split(" ");
     let i = 0;
     let finished = false;
