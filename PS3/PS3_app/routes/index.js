@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'RuneScape Item Info' });
+  res.render('√', { title: 'test' });
 });
 
 module.exports = router;
