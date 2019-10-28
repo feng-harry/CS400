@@ -1,11 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 router.route('/')
     .post(function(req, res, next) {
-        var request = require("request");
+        const request = require("request");
 
-        var options = { method: 'POST',
+        const options = { method: 'POST',
             url: 'http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json',
             qs: { item: req.body.id },
             form: { item: req.body.id } };
