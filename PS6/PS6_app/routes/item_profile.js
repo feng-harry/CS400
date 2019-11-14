@@ -1,29 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const db = require('../mongo/mongo');
 
-const mongo = require("mongodb").MongoClient;
-const mongo_url = "mongodb://localhost:27017";
-var db = null;
-var c = null;
-
-mongo.connect(
-  mongo_url,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  },
-  (err, client) => {
-    if (err) {
-      console.log(err);
-    }
-    db = client.db("cs400_project");
-    c = client;
+db.connect((err, client) => {
+  if (err) {
+    console.log(`ERR: ${err}`);
+  } else {
+    console.log(`Connected`);
   }
-);
+});
 
 router.route("/").get(function(req, res, next) {
   const checkMongoDB = callback => {
-    const collection = db.collection("items");
+    console.log("FIRST");
+    const collection = db.getDB().collection("items");
     collection.findOne({ id: req.query.id }, (err, item) => {
       if (!item) {
         console.log("Item not in DB. Calling API...");
@@ -42,7 +32,7 @@ router.route("/").get(function(req, res, next) {
 
   const getDataFromAPI = () => {
     const request = require("request");
-
+    console.log("SECOND");
     const options = {
       method: "GET",
       url:
@@ -60,7 +50,7 @@ router.route("/").get(function(req, res, next) {
           img_url: body_jsobj.item.icon_large,
           cached: "False"
         });
-        const collection = db.collection("items");
+        const collection = db.getDB().collection("items");
 
         collection.insertOne(
           {
@@ -76,7 +66,6 @@ router.route("/").get(function(req, res, next) {
   };
 
   checkMongoDB(getDataFromAPI);
-  // c.close();
 });
 
 module.exports = router;

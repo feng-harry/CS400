@@ -1,30 +1,20 @@
 const express = require("express");
 const router = express.Router();
+const db = require('../mongo/mongo');
 
-const mongo = require("mongodb").MongoClient;
-const mongo_url = "mongodb://localhost:27017";
-var db = null;
-var c = null;
+db.connect((err, client) => {
+  if (err) {
+    console.log(`ERR: ${err}`);
+  } else {
+    console.log(`Connected`);
+  }
+});
 
 const timeInMss = Date.now();
 
-mongo.connect(
-  mongo_url,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  },
-  (err, client) => {
-    if (err) {
-      console.log(err);
-    }
-    db = client.db("cs400_project");
-    c = client;
-  }
-);
 router.route("/").get(function(req, res, next) {
   const checkMongoDB = callback => {
-    const collection = db.collection("prices");
+    const collection = db.getDB().collection("prices");
     collection.findOne({ id: req.query.id }, (err, item) => {
       if (!item) {
         console.log("Item not in DB. Calling API...");
@@ -60,7 +50,7 @@ router.route("/").get(function(req, res, next) {
           res.render("item_price", {
             price: current_price
           });
-          const collection = db.collection("prices");
+          const collection = db.getDB().collection("prices");
           if (isInDB) {
             collection.updateOne,
               ({ id: req.query.id },
