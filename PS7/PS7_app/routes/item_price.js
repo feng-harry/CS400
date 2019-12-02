@@ -13,8 +13,12 @@ db.connect((err, client) => {
 const timeInMss = Date.now();
 
 router.route("/").get(function(req, res, next) {
+  res.setHeader('Content-Type', 'application/json');
+
   const checkMongoDB = callback => {
-    const collection = db.getDB().collection("prices");
+    const collection = db.getDB().collection("prices")
+    console.log(`Backend data 1: ${req.query.id}`);
+
     collection.findOne({ id: req.query.id }, (err, item) => {
       if (!item) {
         console.log("Item not in DB. Calling API...");
@@ -24,9 +28,10 @@ router.route("/").get(function(req, res, next) {
         callback(true);
       } else {
         console.log("Item is in DB. Fetching from DB...");
-        res.render("item_price", {
-          price: item.price
-        });
+        // res.render("item_price", {
+        //   price: item.price
+        // });
+        res.json({ price: item.price });
       }
     });
   };
@@ -38,7 +43,7 @@ router.route("/").get(function(req, res, next) {
       .get(url_base + req.query.id + ".json", resp => {
         let data = "";
 
-        // A chunk of data has been recieved.
+        // A chunk of data has been received.
         resp.on("data", chunk => {
           data += chunk;
         });
@@ -47,9 +52,13 @@ router.route("/").get(function(req, res, next) {
         resp.on("end", () => {
           const current_date = Object.keys(JSON.parse(data).daily)[179];
           const current_price = JSON.parse(data).daily[current_date];
-          res.render("item_price", {
-            price: current_price
-          });
+          // res.render("item_price", {
+          //   price: current_price
+          // });
+          console.log(`Backend data 2: ${current_price}`);
+
+          res.json({ price: current_price });
+
           const collection = db.getDB().collection("prices");
           if (isInDB) {
             collection.updateOne,
@@ -65,6 +74,7 @@ router.route("/").get(function(req, res, next) {
               (err, result) => {}
             );
           }
+          // return {price: current_price};
         });
       })
       .on("error", err => {
