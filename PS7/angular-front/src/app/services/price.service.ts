@@ -9,9 +9,7 @@ import {PRICE} from "../models/itemPrice";
 })
 export class PriceService {
 
-  priceInfo: PRICE = {
-    price: ""
-  };
+  priceInfo: PRICE;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -25,13 +23,13 @@ export class PriceService {
     return this.http.get<PRICE>(url, this.httpOptions);
   }
 
-  getPrice(itemId): any{
+  getPrice(itemId): PRICE{
     const apiUrl = "http://localhost:3000/price?id=" + itemId;
     this.callApi(apiUrl).subscribe((data: PRICE) => {
       this.priceInfo = {price: data['price']};
       console.log(this.priceInfo);
-      return this.priceInfo.price;
     });
+    return this.priceInfo;
   }
 
   constructor(private http: HttpClient) { }

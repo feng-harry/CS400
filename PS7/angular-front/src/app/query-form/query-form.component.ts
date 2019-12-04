@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { PriceService } from "../services/price.service";
+import {PRICE} from "../models/itemPrice";
 
 @Component({
   selector: 'app-query-form',
@@ -11,12 +12,12 @@ export class QueryFormComponent implements OnInit {
     itemId: ''
   };
 
-  itemPrice = "";
+  itemPrice: PRICE;
 
-  getPrice(): void {
+  getPrice(): PRICE {
     console.log(`This is what was entered into the form box: ${this.formValues.itemId}.`);
     this.itemPrice = this.priceService.getPrice(this.formValues.itemId);
-    console.log(`The price of item ${this.formValues.itemId} is ${this.itemPrice}.`);
+    return this.itemPrice;
   }
 
   constructor(private priceService: PriceService) { }

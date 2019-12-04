@@ -1,4 +1,9 @@
-<form>
+<form ngNativeValidate #form>
   <input type="text" name="itemId" [(ngModel)]="formValues.itemId" required>
-  <button class="button" (click)="getPrice()">Submit</button>
+  <button type="submit" (click)="form.checkValidity() ? getPrice() : null">Submit</button>
 </form>
+
+<div *ngIf="itemPrice">
+  <br>
+  <h3>Price: {{itemPrice.price}}</h3>
+</div>

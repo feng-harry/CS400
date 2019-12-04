@@ -5,11 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { QueryFormComponent } from './query-form/query-form.component';
+import { ItemInfoComponent } from './item-info/item-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    QueryFormComponent
+    QueryFormComponent,
+    ItemInfoComponent,
   ],
   imports: [
     BrowserModule,

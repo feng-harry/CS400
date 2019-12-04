@@ -11,6 +11,7 @@ db.connect((err, client) => {
 });
 
 router.route("/").get(function(req, res, next) {
+  res.setHeader('Content-Type', 'application/json');
   const checkMongoDB = callback => {
     console.log("FIRST");
     const collection = db.getDB().collection("items");
@@ -20,12 +21,17 @@ router.route("/").get(function(req, res, next) {
         callback();
       } else {
         console.log("Item is in DB. Fetching from DB...");
-        res.render("item_profile", {
-          name: item.name,
-          desc: item.desc,
-          img_url: item.img_url,
-          cached: "True"
-        });
+        // res.render("item_profile", {
+        //   name: item.name,
+        //   desc: item.desc,
+        //   img_url: item.img_url,
+        //   cached: "True"
+        // });
+        res.json(
+            { name: item.name,
+              desc: item.desc,
+              imgUrl: item.img_url
+            });
       }
     });
   };
@@ -44,12 +50,17 @@ router.route("/").get(function(req, res, next) {
       if (error) throw new Error(error);
       else {
         const body_jsobj = JSON.parse(body);
-        res.render("item_profile", {
-          name: body_jsobj.item.name,
-          desc: body_jsobj.item.description,
-          img_url: body_jsobj.item.icon_large,
-          cached: "False"
-        });
+        // res.render("item_profile", {
+        //   name: body_jsobj.item.name,
+        //   desc: body_jsobj.item.description,
+        //   img_url: body_jsobj.item.icon_large,
+        //   cached: "False"
+        // });
+        res.json(
+            { name: item.name,
+              desc: item.desc,
+              imgUrl: item.img_url
+            });
         const collection = db.getDB().collection("items");
 
         collection.insertOne(

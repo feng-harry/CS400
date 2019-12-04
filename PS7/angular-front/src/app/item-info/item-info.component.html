@@ -1,0 +1,11 @@
+<form ngNativeValidate #form>
+  <input type="text" name="itemId" [(ngModel)]="formValues.itemId" required>
+  <button type="submit" (click)="form.checkValidity() ? getItemInfo() : null">Submit</button>
+</form>
+
+<div *ngIf="itemInfoValues">
+  <br>
+  <h3>{{itemInfoValues.itemName}}</h3>
+  <div>Description: {{itemInfoValues.itemDesc}}</div>
+  <img src="{{itemInfoValues.itemImgUrl}}">
+</div>
