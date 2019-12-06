@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemDescService } from "../services/item-desc.service";
-import {ItemInfo} from "../models/itemInfo";
+import { ItemInfo } from "../models/itemInfo";
 
 @Component({
   selector: 'app-item-info',
@@ -9,16 +9,17 @@ import {ItemInfo} from "../models/itemInfo";
 })
 
 export class ItemInfoComponent implements OnInit {
-  formValues: any = {
-    itemId: ''
-  };
+  itemId: string;
 
   itemInfoValues: ItemInfo;
 
-  getItemInfo(): ItemInfo {
-    console.log(`This is what was entered into the form box: ${this.formValues.itemId}.`);
-    this.itemInfoValues = this.itemDescService.getItemInfo(this.formValues.itemId);
-    return this.itemInfoValues;
+  getItemInfo(): void {
+    console.log(`This is what was entered into the form box: ${this.itemId}.`);
+    this.itemDescService.getItemInfo(this.itemId).subscribe((data: ItemInfo) => {
+      this.itemInfoValues = data;
+    });
+    // this.itemInfoValues = this.itemDescService.getItemInfo(this.itemId);
+    // return this.itemInfoValues;
   }
 
   constructor(private itemDescService: ItemDescService) { }
@@ -26,5 +27,6 @@ export class ItemInfoComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
 }

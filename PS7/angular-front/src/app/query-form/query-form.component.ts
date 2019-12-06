@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { PriceService } from "../services/price.service";
 import {PRICE} from "../models/itemPrice";
 
@@ -7,17 +7,19 @@ import {PRICE} from "../models/itemPrice";
   templateUrl: './query-form.component.html',
   styleUrls: ['./query-form.component.css']
 })
+
 export class QueryFormComponent implements OnInit {
-  formValues: any = {
-    itemId: ''
-  };
+  itemId: string;
 
   itemPrice: PRICE;
 
-  getPrice(): PRICE {
-    console.log(`This is what was entered into the form box: ${this.formValues.itemId}.`);
-    this.itemPrice = this.priceService.getPrice(this.formValues.itemId);
-    return this.itemPrice;
+  getPrice(): void {
+    console.log(`This is what was entered into the form box: ${this.itemId}.`);
+    // this.itemPrice = this.priceService.getPrice(this.formValues.itemId);
+    this.priceService.getPrice(this.itemId).subscribe((data: PRICE) => {
+      this.itemPrice = data;
+    })
+    // return this.itemPrice;
   }
 
   constructor(private priceService: PriceService) { }

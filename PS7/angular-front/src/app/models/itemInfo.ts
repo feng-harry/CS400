@@ -1,5 +1,5 @@
 export class ItemInfo {
-  itemName: string;
-  itemDesc: string;
-  itemImgUrl: string;
+  name: string;
+  desc: string;
+  imgUrl: string;
 }

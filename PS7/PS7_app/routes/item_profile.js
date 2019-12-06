@@ -14,6 +14,7 @@ router.route("/").get(function(req, res, next) {
   res.setHeader('Content-Type', 'application/json');
   const checkMongoDB = callback => {
     console.log("FIRST");
+    console.log(`ID: ${req.query.id}`);
     const collection = db.getDB().collection("items");
     collection.findOne({ id: req.query.id }, (err, item) => {
       if (!item) {
